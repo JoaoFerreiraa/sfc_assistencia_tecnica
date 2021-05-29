@@ -1,0 +1,183 @@
+DELIMITER $$
+--
+-- Procedimentos
+--
+DROP PROCEDURE IF EXISTS `alteracaoFolhaDeRosto_inserir`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alteracaoFolhaDeRosto_inserir` (IN `_cod_folha_de_rosto` INT, IN `_usuario` INT, IN `_data_alteracao` VARCHAR(11))  NO SQL
+INSERT INTO `alteracao_folha_de_rosto`(`cod_folha_de_rosto`, `usuario`, `data_alteracao`) VALUES (_cod_folha_de_rosto,_usuario,_data_alteracao)$$
+
+DROP PROCEDURE IF EXISTS `criacaoFolhaDeRosto_inserir`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `criacaoFolhaDeRosto_inserir` (IN `_cod_folha_de_rosto` INT, IN `_usuario` INT, IN `_data_criacao` VARCHAR(11))  NO SQL
+INSERT INTO `criacao_folha_de_rosto`(`cod_folha_de_rosto`, `usuario`, `data_criacao`) VALUES (_cod_folha_de_rosto,_usuario,_data_criacao)$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_consultarPorCodigo`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_consultarPorCodigo` (IN `_cod` INT)  NO SQL
+SELECT * FROM `folha_de_rosto` WHERE folha_de_rosto.cod = _cod$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_consultarPorSerial`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_consultarPorSerial` (IN `_serial` VARCHAR(25))  NO SQL
+SELECT * FROM `folha_de_rosto` WHERE folha_de_rosto.numero_serie like CONCAT('%',_serial,'%') ORDER BY folha_de_rosto.cod DESC LIMIT 1$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_consultarPorUsuario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_consultarPorUsuario` (IN `_usuario` INT)  NO SQL
+SELECT * FROM `folha_de_rosto` where folha_de_rosto.usuario = _usuario$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_consultarReincidencias`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_consultarReincidencias` (IN `_serial` VARCHAR(25))  NO SQL
+SELECT * FROM `folha_de_rosto` WHERE folha_de_rosto.numero_serie like CONCAT('%',_serial,'%') ORDER BY folha_de_rosto.cod$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_consultarTodas`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_consultarTodas` ()  NO SQL
+SELECT * FROM `folha_de_rosto` order by folha_de_rosto.cod DESC$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_consultarTodasLimitada`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_consultarTodasLimitada` ()  NO SQL
+SELECT * FROM `folha_de_rosto` order by folha_de_rosto.cod DESC LIMIT 200$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_consultaUltimaFolha`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_consultaUltimaFolha` ()  NO SQL
+SELECT * from folha_de_rosto order by folha_de_rosto.cod DESC limit 1$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_criar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_criar` (IN `_usuario` INT, IN `_lancamento_almoxarife` VARCHAR(11), IN `_tipo_solicitacao` VARCHAR(21), IN `_nome_cliente` VARCHAR(255), IN `_modelo` VARCHAR(25), IN `_numero_serie` VARCHAR(25), IN `_part_number` VARCHAR(15), IN `_reincidencia` VARCHAR(5), IN `_acompanha_fonte` VARCHAR(255), IN `_desc_estetica_equipamento` TEXT, IN `_desc_defeito_reclamado` TEXT, IN `_observacao` TEXT)  NO SQL
+INSERT INTO `folha_de_rosto`(`usuario`,`lancamento_almoxarife`, `tipo_solicitacao`, `nome_cliente`, `modelo`, `numero_serie`, `part_number`, `reincidencia`, `acompanha_fonte`, `desc_estetica_equipamento`, `desc_defeito_reclamado`,`observacao`) VALUES (_usuario,_lancamento_almoxarife,_tipo_solicitacao,_nome_cliente,_modelo,_numero_serie,_part_number,_reincidencia,_acompanha_fonte,_desc_estetica_equipamento,_desc_defeito_reclamado, _observacao)$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_editarAdministrativo`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_editarAdministrativo` (IN `_CodFolha` INT, IN `lancamento_almoxarife` VARCHAR(11), IN `tipo_solicitacao` VARCHAR(21), IN `nome_cliente` VARCHAR(255), IN `modelo` VARCHAR(25), IN `numero_serie` VARCHAR(25), IN `part_number` VARCHAR(15), IN `reincidencia` VARCHAR(5), IN `acompanha_fonte` VARCHAR(255), IN `desc_estetica_equipamento` TEXT, IN `desc_defeito_reclamado` TEXT, IN `observacao` TEXT)  NO SQL
+UPDATE `folha_de_rosto` SET `lancamento_almoxarife`=lancamento_almoxarife,`tipo_solicitacao`=tipo_solicitacao,`nome_cliente`=nome_cliente,`modelo`=modelo,`numero_serie`=numero_serie,`part_number`=part_number,`reincidencia`=reincidencia,`acompanha_fonte`=acompanha_fonte,`desc_estetica_equipamento`=desc_estetica_equipamento,`desc_defeito_reclamado`=desc_defeito_reclamado,`observacao`=observacao WHERE folha_de_rosto.cod = _CodFolha$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_editarLaudoEmitido`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_editarLaudoEmitido` (IN `_cod` INT, IN `_laudo_emitido` VARCHAR(11))  NO SQL
+UPDATE `folha_de_rosto` SET folha_de_rosto.laudo_emitido=_laudo_emitido WHERE folha_de_rosto.cod = _cod$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_editarPorCodAT`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_editarPorCodAT` (IN `_cod` INT, IN `_part_number` VARCHAR(15), IN `_modelo` VARCHAR(25), IN `_entrada_laboratorio` VARCHAR(11), IN `_tipo_solicitacao` VARCHAR(21), IN `_reincidencia` VARCHAR(5), IN `_defeito_apresentado` TEXT, IN `_pecas_trocadas` TEXT, IN `_servicos_executados` TEXT, IN `_numero_serie` VARCHAR(25), IN `_burnin_test` TEXT, IN `_causa_reincidencia` TEXT)  NO SQL
+UPDATE `folha_de_rosto` SET folha_de_rosto.part_number = _part_number, folha_de_rosto.modelo = _modelo, `entrada_laboratorio`=_entrada_laboratorio,`tipo_solicitacao`=_tipo_solicitacao,`reincidencia`=_reincidencia,`defeito_apresentado`=_defeito_apresentado,`pecas_trocadas`=_pecas_trocadas, `servicos_executados`=_servicos_executados, folha_de_rosto.numero_serie = _numero_serie, folha_de_rosto.burnin_test = _burnin_test, folha_de_rosto.causa_reincidencia = _causa_reincidencia WHERE folha_de_rosto.cod = _cod$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_importarExcel`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_importarExcel` (IN `_usuario` INT, IN `_lancamento_almoxarife` VARCHAR(11), IN `_entrada_laboratorio` VARCHAR(11), IN `_tipo_solicitacao` VARCHAR(21), IN `_nome_cliente` VARCHAR(255), IN `_modelo` VARCHAR(6), IN `_numero_serie` VARCHAR(25), IN `_part_number` VARCHAR(15), IN `_reincidencia` VARCHAR(5), IN `_acompanha_fonte` VARCHAR(255), IN `_desc_estetica_equipamento` TEXT, IN `_desc_defeito_reclamado` TEXT, IN `_observacao` TEXT, IN `_tec_responsavel_old` VARCHAR(60), IN `_pecas_trocadas` TEXT, IN `_servicos_executados` TEXT, IN `_defeito_apresentado` TEXT, IN `_laudo_emitido` TEXT, IN `_burnin_test` TEXT, IN `_causa_reincidencia` TEXT)  NO SQL
+INSERT INTO `folha_de_rosto`(`usuario`,`lancamento_almoxarife`, `entrada_laboratorio`, `tipo_solicitacao`, `nome_cliente`, `modelo`, `numero_serie`, `part_number`, `reincidencia`, `acompanha_fonte`, `desc_estetica_equipamento`, `desc_defeito_reclamado`,`observacao`,`tec_responsavel_old`,`pecas_trocadas`, `servicos_executados`, `defeito_apresentado`,`laudo_emitido`, folha_de_rosto.burnin_test,folha_de_rosto.causa_reincidencia) VALUES (_usuario,_lancamento_almoxarife,_entrada_laboratorio,_tipo_solicitacao,_nome_cliente,_modelo,_numero_serie,_part_number,_reincidencia,_acompanha_fonte,_desc_estetica_equipamento,_desc_defeito_reclamado, _observacao,_tec_responsavel_old, _pecas_trocadas, _servicos_executados,_defeito_apresentado,_laudo_emitido,_burnin_test,_causa_reincidencia)$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_mudarEntradaLaboratorio`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_mudarEntradaLaboratorio` (IN `codFolhaDeRosto` INT, IN `_data` VARCHAR(20))  NO SQL
+UPDATE `folha_de_rosto` SET `entrada_laboratorio`= _data WHERE folha_de_rosto.cod = codFolhaDeRosto$$
+
+DROP PROCEDURE IF EXISTS `folhaDeRosto_procurar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `folhaDeRosto_procurar` (IN `procurado` TEXT)  NO SQL
+SELECT * FROM `folha_de_rosto` WHERE folha_de_rosto.nome_cliente like CONCAT("%", procurado,"%")  OR folha_de_rosto.numero_serie like CONCAT("%", procurado,"%") or folha_de_rosto.modelo like CONCAT("%", procurado,"%")$$
+
+DROP PROCEDURE IF EXISTS `laudoEmitido_consultarPorSerial`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `laudoEmitido_consultarPorSerial` (IN `_serial_number` VARCHAR(25))  NO SQL
+SELECT * FROM `laudo_emitido` WHERE laudo_emitido.serial_number = _serial_number order by laudo_emitido.cod desc limit 1$$
+
+DROP PROCEDURE IF EXISTS `laudoEmitido_criar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `laudoEmitido_criar` (IN `_modelo_maquina` VARCHAR(30), IN `_serial_number` VARCHAR(25), IN `_pecas_trocadas` TEXT, IN `_tec_emissor` INT, IN `_cod_folha` INT)  NO SQL
+INSERT INTO `laudo_emitido`(`modelo_maquina`, `serial_number`, `pecas_trocadas`, `tec_emissor`, laudo_emitido.codFolha) VALUES (_modelo_maquina,_serial_number,_pecas_trocadas,_tec_emissor,_cod_folha)$$
+
+DROP PROCEDURE IF EXISTS `laudoEmitido_editarPorSerial`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `laudoEmitido_editarPorSerial` (IN `_serial_number` VARCHAR(25), IN `_tec_emissor` INT, IN `_modelo_maquina` VARCHAR(30), IN `_pecas_trocadas` TEXT)  NO SQL
+UPDATE `laudo_emitido` SET `modelo_maquina`=_modelo_maquina,`pecas_trocadas`=_pecas_trocadas WHERE laudo_emitido.serial_number= _serial_number AND laudo_emitido.tec_emissor = _tec_emissor$$
+
+DROP PROCEDURE IF EXISTS `logs_consultarPorFolha`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `logs_consultarPorFolha` (IN `_codFolha` INT)  NO SQL
+SELECT logs.cod, logs.data, logs.usuario, logs.log FROM `logs` WHERE logs.codFolha = _codFolha$$
+
+DROP PROCEDURE IF EXISTS `logs_consultarPorFolhaUltimo`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `logs_consultarPorFolhaUltimo` (IN `_codFolha` INT)  NO SQL
+SELECT logs.cod, logs.data, logs.usuario, logs.log FROM `logs` WHERE logs.codFolha like CONCAT('%',_codFolha,'%') order by logs.cod DESC limit 1$$
+
+DROP PROCEDURE IF EXISTS `logs_consultarTipoLogs`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `logs_consultarTipoLogs` ()  NO SQL
+select logs.log from logs GROUP BY logs.log$$
+
+DROP PROCEDURE IF EXISTS `logs_criar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `logs_criar` (IN `_usuario` VARCHAR(250), IN `_log` TEXT, IN `_tabela` VARCHAR(40), IN `_codFolha` INT)  NO SQL
+INSERT INTO `logs`(`usuario`, `log`, `tabela`, logs.codFolha) VALUES (_usuario,_log,_tabela, _codFolha)$$
+
+DROP PROCEDURE IF EXISTS `maquinas_voltaram_tecnico`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `maquinas_voltaram_tecnico` (IN `_tec` INT)  NO SQL
+SELECT * from revisao where revisao.cod_folha in (select cod_folha_de_rosto from tec_responsavel_folha_de_rosto where tec_responsavel_folha_de_rosto.cod_folha_de_rosto in (SELECT folha_de_rosto.cod
+FROM folha_de_rosto
+INNER JOIN revisao ON folha_de_rosto.cod = revisao.cod_folha and revisao.status = 2) AND tec_responsavel_folha_de_rosto.tec_responsavel = _tec)$$
+
+DROP PROCEDURE IF EXISTS `paradaTemporaria_consultarPorCodFolha`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `paradaTemporaria_consultarPorCodFolha` (IN `_codFolha` INT)  NO SQL
+SELECT * FROM `parada_temporaria` WHERE parada_temporaria.cod_folha = _codFolha$$
+
+DROP PROCEDURE IF EXISTS `paradaTemporaria_criar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `paradaTemporaria_criar` (IN `_cod_folha` INT, IN `_cod_tec` INT, IN `_motivo` TEXT)  NO SQL
+INSERT INTO `parada_temporaria`(`cod_folha`, parada_temporaria.cod_usuario, `motivo`, `status_parada`) VALUES (_cod_folha, _cod_tec, _motivo, 'Equipamento parado')$$
+
+DROP PROCEDURE IF EXISTS `paradaTemporaria_editar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `paradaTemporaria_editar` (IN `_cod` INT, IN `_cod_folha` INT, IN `_cod_usuario` INT, IN `_motivo` TEXT, IN `_status_parada` VARCHAR(100))  NO SQL
+UPDATE `parada_temporaria` SET `cod_folha`=_cod_folha,`cod_usuario`=_cod_usuario,`motivo`=_motivo,`status_parada`=_status_parada WHERE `cod`= _cod$$
+
+DROP PROCEDURE IF EXISTS `paradaTemporaria_remover`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `paradaTemporaria_remover` (IN `_codFolha` INT)  NO SQL
+DELETE FROM `parada_temporaria` WHERE parada_temporaria.cod_folha = _codFolha$$
+
+DROP PROCEDURE IF EXISTS `revisao_consultarMaquinasParaVoltar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `revisao_consultarMaquinasParaVoltar` ()  NO SQL
+SELECT * FROM `revisao` WHERE revisao.status = 3$$
+
+DROP PROCEDURE IF EXISTS `revisao_consultarPorCodFolha`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `revisao_consultarPorCodFolha` (IN `codFolha` INT)  NO SQL
+SELECT * FROM `revisao` WHERE revisao.cod_folha = codFolha$$
+
+DROP PROCEDURE IF EXISTS `revisao_consultarTodos`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `revisao_consultarTodos` ()  NO SQL
+SELECT * FROM revisao$$
+
+DROP PROCEDURE IF EXISTS `revisao_criar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `revisao_criar` (IN `_cod_folha` INT, IN `_status` INT)  NO SQL
+INSERT INTO `revisao`(`cod_folha`, `status`) VALUES (_cod_folha, _status)$$
+
+DROP PROCEDURE IF EXISTS `revisao_editar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `revisao_editar` (IN `_cod` INT, IN `_status` INT, IN `_motivo` TEXT, IN `_revisor` INT)  NO SQL
+UPDATE `revisao` SET `status`=_status,`motivo`=_motivo,`revisor`=_revisor WHERE revisao.cod = _cod$$
+
+DROP PROCEDURE IF EXISTS `revisao_editarPorCodigoFolha`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `revisao_editarPorCodigoFolha` (IN `_codFolha` INT, IN `_status` INT, IN `_motivo` TEXT, IN `_revisor` INT)  NO SQL
+UPDATE `revisao` SET `status`=_status,`motivo`=_motivo,`revisor`=_revisor WHERE revisao.cod_folha = _codFolha$$
+
+DROP PROCEDURE IF EXISTS `tecnicoResponsavel_consultarCodTecnicos`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tecnicoResponsavel_consultarCodTecnicos` ()  NO SQL
+SELECT tec_responsavel_folha_de_rosto.tec_responsavel FROM `tec_responsavel_folha_de_rosto` GROUP BY tec_responsavel_folha_de_rosto.tec_responsavel$$
+
+DROP PROCEDURE IF EXISTS `tecnicoResponsavel_consultaResponsaveis`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tecnicoResponsavel_consultaResponsaveis` (IN `_codFolha` INT)  NO SQL
+SELECT tec_responsavel_folha_de_rosto.tec_responsavel FROM `tec_responsavel_folha_de_rosto` WHERE tec_responsavel_folha_de_rosto.cod_folha_de_rosto = _codFolha$$
+
+DROP PROCEDURE IF EXISTS `tecnicoResponsavel_consultarFolhas`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tecnicoResponsavel_consultarFolhas` (IN `_usuario` INT)  NO SQL
+SELECT * FROM `tec_responsavel_folha_de_rosto` WHERE tec_responsavel_folha_de_rosto.tec_responsavel = _usuario$$
+
+DROP PROCEDURE IF EXISTS `tecnicoResponsavel_criar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tecnicoResponsavel_criar` (IN `_cod_folha_de_rosto` INT, IN `_tec_responsavel` INT)  NO SQL
+INSERT INTO `tec_responsavel_folha_de_rosto`(`cod_folha_de_rosto`, `tec_responsavel`) VALUES (_cod_folha_de_rosto,_tec_responsavel)$$
+
+DROP PROCEDURE IF EXISTS `tecnicoResponsavel_editar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tecnicoResponsavel_editar` (IN `_codFolha` INT, IN `_cod_tec` INT)  NO SQL
+UPDATE `tec_responsavel_folha_de_rosto` SET `tec_responsavel`=_cod_tec WHERE `cod_folha_de_rosto`= _codFolha$$
+
+DROP PROCEDURE IF EXISTS `tecnicoResponsavel_verificaResponsabilidadeDafolha`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tecnicoResponsavel_verificaResponsabilidadeDafolha` (IN `_cod_folha_de_rosto` INT, IN `_tec_responsavel` INT)  NO SQL
+SELECT * FROM `tec_responsavel_folha_de_rosto` WHERE `cod_folha_de_rosto` = _cod_folha_de_rosto AND `tec_responsavel` = _tec_responsavel$$
+
+DROP PROCEDURE IF EXISTS `usuario_consultaPorCod`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usuario_consultaPorCod` (IN `_cod` INT)  NO SQL
+SELECT `cod`, `usuario`, `nome`, `funcao`, `nivel`, `senha` FROM `usuario` WHERE usuario.cod = _cod$$
+
+DROP PROCEDURE IF EXISTS `usuario_consultaPorUsuario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usuario_consultaPorUsuario` (IN `_usuario` VARCHAR(9))  NO SQL
+SELECT `cod`, `usuario`, `nome`, `funcao`, `nivel`, `senha` FROM `usuario` WHERE usuario.usuario = _usuario$$
+
+DROP PROCEDURE IF EXISTS `usuario_consultarNomePorCod`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usuario_consultarNomePorCod` (IN `_cod` INT)  NO SQL
+SELECT usuario.nome FROM `usuario` WHERE usuario.cod = _cod$$
+
+DROP PROCEDURE IF EXISTS `usuario_criar`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usuario_criar` (IN `_usuario` VARCHAR(9), IN `_nome` VARCHAR(255), IN `_funcao` VARCHAR(100), IN `_nivel` INT(1), IN `_senha` VARCHAR(80))  NO SQL
+INSERT INTO `usuario`(`usuario`,`nome`, `funcao`, `nivel`, `senha`) VALUES (_usuario,_nome,_funcao,_nivel,_senha)$$
+
+DELIMITER ;

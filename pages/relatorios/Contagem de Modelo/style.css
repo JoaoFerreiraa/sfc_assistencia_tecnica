@@ -1,0 +1,71 @@
+body{
+    background-color: #f3f3f3 !important;
+}
+
+.painel{
+    position: fixed;
+    width: 20vw;
+    height: 100vh;
+    padding-top: 1rem;
+    top: 0;
+    z-index: 2;
+    padding-top: 5rem;
+}
+
+.bg-primary{
+    background: var(--primary);
+}
+
+.dashboard-body{
+    margin-left: 21vw;
+    margin-top: .3rem;
+    margin-right: .3rem;
+    padding: .5rem;
+}
+.style{
+    box-shadow: #7b7b7b 0px 0px 25px -12px;
+    padding: 2rem;
+    border-radius: 30px;
+    background: white;
+}
+.style table{
+    border-radius: 15px;
+    box-shadow: #7b7b7b 0px 0px 15px -12px;
+    margin-top: 1rem;
+}
+#myChart{
+    background: white;
+    padding: 3rem;
+    border-radius: 30px;
+    
+}
+.mychart{
+    background: white;
+    border-radius: 30px;
+    box-shadow: #7b7b7b 0px 0px 25px -12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    outline: none;
+}
+.mychart a{
+    border-radius: 0 0 30px 30px;
+
+}
+
+.table thead{
+    color: var(--primary);
+}
+@media (max-width: 700px)
+{
+  .dashboard-body{
+      margin-left: 10vw;
+  }
+  .style{
+      width: 100%;
+  }
+  #myChart{
+      width: 310px !important;
+      height: 310px !important;
+  }
+}

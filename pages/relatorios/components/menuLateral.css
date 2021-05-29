@@ -1,0 +1,67 @@
+a{
+    text-decoration: none !important;
+}
+.painel{
+    position: fixed;
+    width: 18vw;
+    height: 100%;
+    transition: 0.3s all;
+    z-index: 998;
+}
+
+.items-painel{
+    color: white;
+    font-weight: 600;
+    display: block;
+    width: 100%;
+    padding: .5rem;
+    cursor: pointer;
+
+    transition: .2s all;
+}
+
+.items-painel:hover{
+    background-color: #c36464;
+    border-right: #eb9494 solid 5px;
+}
+.items-painel:hover > svg{
+    color: #eb9494 !important;
+}
+.icon{
+    color: white;
+    font-size: 3rem;
+}
+.items-painel-mobile{
+    color: white;
+    font-weight: 600;
+    height: 100%;
+    padding: .5rem;
+    cursor: pointer;
+    text-align: center;
+    transition: .2s all;
+    display: none;
+    align-items: center;
+    position: absolute;
+    top: 0;
+}
+
+#btnMenu {
+    position: absolute;
+    transition: .3s all;
+    left: 2vw;
+}
+
+@media (max-width: 700px)
+{
+  .items-painel
+   {
+       font-size: 1.5rem;
+    display: none;
+   }
+   .items-painel-mobile{
+    display: flex;
+   }
+   .painel{
+       width: 10vw;
+   }
+}
