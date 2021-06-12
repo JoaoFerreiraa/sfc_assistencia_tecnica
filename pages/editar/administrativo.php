@@ -62,7 +62,7 @@ if (!isset($_GET['folha'])) {
                     <div class="alert alert-success" id="mensagem" role="alert">
                         Folha editada com sucesso!
                     </div>
-                    <form autocomplete="off">
+                    <form autocomplete="off" method="POST">
                         <div class="form-group">
                             <input type="text" class="d-none" name="folha" value=<?php echo $_GET['folha'] ?>>
                             <span>Lançamento almoxarife</span>
@@ -227,32 +227,32 @@ if (!isset($_GET['folha'])) {
             </div>
             <?php
             $codFolha = $_GET['folha'];
-            if (isset($_GET['btnCriar'])) {
+            if (isset($_POST['btnCriar'])) {
                 $pecasTrocadas = NULL;
                 $descEstetica = null;
                 $descDefeitoReclamado = null;
 
                 $objFolhaDeRosto = new FolhaDeRosto();
                 $objFolhaDeRosto->setCod($codFolha);
-                $objFolhaDeRosto->setLancamento_almoxarife(date("d/m/Y", strtotime($_GET['dataEntradaAlmoxarife'])));
-                $objFolhaDeRosto->setTipo_solicitacao($_GET['tipoSolicitacao']);
-                $objFolhaDeRosto->setNome_cliente($_GET['nomeCliente']);
-                $objFolhaDeRosto->setModelo($_GET['modelo']);
-                $objFolhaDeRosto->setPart_number($_GET['partNumber']);
-                $objFolhaDeRosto->setNumero_serie($_GET['nSerie']);
-                $objFolhaDeRosto->setReincidencia($_GET['reicidencia']);
-                $objFolhaDeRosto->setAcompanha_fonte($_GET['acompanhaFonte']);
-                $objFolhaDeRosto->setObservacao($_GET['observacao']);
+                $objFolhaDeRosto->setLancamento_almoxarife(date("d/m/Y", strtotime($_POST['dataEntradaAlmoxarife'])));
+                $objFolhaDeRosto->setTipo_solicitacao($_POST['tipoSolicitacao']);
+                $objFolhaDeRosto->setNome_cliente($_POST['nomeCliente']);
+                $objFolhaDeRosto->setModelo($_POST['modelo']);
+                $objFolhaDeRosto->setPart_number($_POST['partNumber']);
+                $objFolhaDeRosto->setNumero_serie($_POST['nSerie']);
+                $objFolhaDeRosto->setReincidencia($_POST['reicidencia']);
+                $objFolhaDeRosto->setAcompanha_fonte($_POST['acompanhaFonte']);
+                $objFolhaDeRosto->setObservacao($_POST['observacao']);
 
-                if (isset($_GET['descEstetica'])) {
-                    foreach ($_GET['descEstetica'] as $val) {
+                if (isset($_POST['descEstetica'])) {
+                    foreach ($_POST['descEstetica'] as $val) {
                         $descEstetica .= $val . ",";
                     }
                     $objFolhaDeRosto->setDesc_estetica_equipamento($descEstetica);
                 }
 
-                if (isset($_GET['descDefeitoReclamado'])) {
-                    foreach ($_GET['descDefeitoReclamado'] as $val) {
+                if (isset($_POST['descDefeitoReclamado'])) {
+                    foreach ($_POST['descDefeitoReclamado'] as $val) {
                         $descDefeitoReclamado .= $val . ",";
                     }
                     $objFolhaDeRosto->setDesc_defeito_reclamado($descDefeitoReclamado);
