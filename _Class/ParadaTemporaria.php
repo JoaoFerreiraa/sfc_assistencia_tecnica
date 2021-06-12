@@ -95,9 +95,10 @@ class ParadaTemporaria
     {
         $objConexao = new Conexao();
         $cmdSql = "CALL paradaTemporaria_consultarPorCodFolha(" . $this->cod_folha . ")";
-        $return = $objConexao->Consultar($cmdSql)[0];
+        $return = $objConexao->Consultar($cmdSql);
+        $return = $return != false ? $return[0] : false;
 
-        if (isset($return)) {
+        if ($return != false) {
             $this->cod = $return['cod'];
             $this->cod_folha = $return['cod_folha'];
             $this->cod_tec = $return['cod_usuario'];

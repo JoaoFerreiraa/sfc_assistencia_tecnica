@@ -12,7 +12,6 @@ if (isset($_GET['numero_serial'])) {
 
     $objFolhaDeRosto->setNumero_serie($_GET['numero_serial']);
     $retornoConsulta = $objFolhaDeRosto->consultar_por_serial();
-
     
     if($retornoConsulta !== false){
         echo 1;

@@ -54,7 +54,7 @@ $objUsuario->consulta_usuario_por_usuario();
                     <div class="alert alert-success" id="mensagem" role="alert">
                         Folha criada com sucesso!
                     </div>
-                    <form autocomplete="off">
+                    <form autocomplete="off" method="POST">
                         <div class="form-group">
                             <span>Entrada logística</span>
                             <input type="date" class="" id="dataEntradaAlmoxarife" name="dataEntradaAlmoxarife">
@@ -227,22 +227,22 @@ $objUsuario->consulta_usuario_por_usuario();
 
             </div>
             <?php
-            if (isset($_GET['btnCriar'])) {
-                $nome = $_GET['nomeCliente'];
+            if (isset($_POST['btnCriar'])) {
+                $nome = $_POST['nomeCliente'];
                 $nomeExplode = explode(" ", $nome);
                 $descEstetica = NULL;
                 $descDefeitoReclamado = NULL;
 
                 $objFolhaDeRosto = new FolhaDeRosto();
                 $objFolhaDeRosto->setUsuario($_SESSION['usuario']['cod']);
-                $objFolhaDeRosto->setLancamento_almoxarife(date("d/m/Y", strtotime($_GET['dataEntradaAlmoxarife'])));
-                $objFolhaDeRosto->setReincidencia($_GET['reicidencia']);
-                $objFolhaDeRosto->setAcompanha_fonte($_GET['acompanhaFonte']);
-                $objFolhaDeRosto->setTipo_solicitacao($_GET['tipoSolicitacao']);
-                $objFolhaDeRosto->setModelo($_GET['modelo']);
-                $objFolhaDeRosto->setNumero_serie($_GET['nSerie']);
-                $objFolhaDeRosto->setPart_number($_GET['partNumber']);
-                $objFolhaDeRosto->setObservacao($_GET['observacao']);
+                $objFolhaDeRosto->setLancamento_almoxarife(date("d/m/Y", strtotime($_POST['dataEntradaAlmoxarife'])));
+                $objFolhaDeRosto->setReincidencia($_POST['reicidencia']);
+                $objFolhaDeRosto->setAcompanha_fonte($_POST['acompanhaFonte']);
+                $objFolhaDeRosto->setTipo_solicitacao($_POST['tipoSolicitacao']);
+                $objFolhaDeRosto->setModelo($_POST['modelo']);
+                $objFolhaDeRosto->setNumero_serie($_POST['nSerie']);
+                $objFolhaDeRosto->setPart_number($_POST['partNumber']);
+                $objFolhaDeRosto->setObservacao($_POST['observacao']);
 
                 $nome = "";
                 for ($i = 0; $i < count($nomeExplode); $i++) {
@@ -253,15 +253,15 @@ $objUsuario->consulta_usuario_por_usuario();
                 
                 $objFolhaDeRosto->setNome_cliente($nome);
 
-                if (isset($_GET['descEstetica'])) {
-                    foreach ($_GET['descEstetica'] as $val) {
+                if (isset($_POST['descEstetica'])) {
+                    foreach ($_POST['descEstetica'] as $val) {
                         $descEstetica .= $val . ",";
                     }
                     $objFolhaDeRosto->setDesc_estetica_equipamento($descEstetica);
                 }
 
-                if (isset($_GET['descDefeitoReclamado'])) {
-                    foreach ($_GET['descDefeitoReclamado'] as $val) {
+                if (isset($_POST['descDefeitoReclamado'])) {
+                    foreach ($_POST['descDefeitoReclamado'] as $val) {
                         $descDefeitoReclamado .= $val . ",";
                     }
                     $objFolhaDeRosto->setDesc_defeito_reclamado($descDefeitoReclamado);
@@ -379,11 +379,13 @@ $objUsuario->consulta_usuario_por_usuario();
             };
             var html;
             $.get("../../_functionsPHP/folhaDeRosto/pesquisaNumeroSerie.php", data, function(retorno) {
+                console.log(retorno);
                 if (retorno == 1) {
                     $("#reincidencia").addClass("bg-danger text-white p-1 disabled");
                     html = '<input type="radio" value="Sim" class="form-radio-input" name="reicidencia" checked="checked"><span> Sim </span>' +
                         '<input type="radio" value="Não" class="form-radio-input" name="reicidencia"><span> Não</span>';
                 } else {
+                    console.log("não: "+data);
                     $("#reincidencia").removeClass("bg-danger text-white p-1 disabled");
                     html = '<input type="radio" value="Sim" class="form-radio-input" name="reicidencia"><span> Sim </span>' +
                         '<input type="radio" value="Não" class="form-radio-input" name="reicidencia" checked="checked"><span> Não</span>';

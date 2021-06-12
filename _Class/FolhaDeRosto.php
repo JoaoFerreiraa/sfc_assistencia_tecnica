@@ -364,8 +364,9 @@ class FolhaDeRosto
     {
         $objConexao = new Conexao();
         $cmdSql = "CALL folhaDeRosto_consultarPorSerial('" . $this->numero_serie . "')";
-        $resultado = $objConexao->Consultar($cmdSql)[0];
-        if (isset($resultado)) {
+        $resultado = $objConexao->Consultar($cmdSql);
+        $resultado = $resultado != false ? $resultado[0] : false;
+        if ($resultado != false) {
             $this->cod = $resultado['cod'];
             $this->usuario = $resultado['usuario'];
             $this->lancamento_almoxarife = $resultado['lancamento_almoxarife'];
