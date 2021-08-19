@@ -31,7 +31,7 @@ if (!empty($_FILES['arquivo']['tmp_name'])) {
 
     foreach ($linhas as $linha) {
         $objFolhaDeRosto = new FolhaDeRosto();
-        $objFolhaDeRosto->setUsuario(9999);
+        $objFolhaDeRosto->setUsuario(2021);
         
         
         $objFolhaDeRosto->setAcompanha_fonte('-');
@@ -156,7 +156,7 @@ if (!empty($_FILES['arquivo']['tmp_name'])) {
             echo '<td>' . $dados->nodeValue . '</td>';
         }
 
-        var_dump($objFolhaDeRosto->importar());
+        $objFolhaDeRosto->importar();
         echo '</tr>';
     }
 

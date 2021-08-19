@@ -268,6 +268,10 @@ class FolhaDeRosto
     function importar()
     {
         $objConexao = new Conexao();
+        
+        if($this->numero_serie == "" || $this->numero_serie == null){
+            return false;
+        }
         $cmdSql = "Call folhaDeRosto_importarExcel('" . $this->usuario . "','" . $this->lancamento_almoxarife . "','" . $this->entrada_laboratorio . "','" . $this->tipo_solicitacao . "','" . $this->nome_cliente . "','" . $this->modelo . "','" . $this->numero_serie . "','" . $this->part_number . "','" . $this->reincidencia . "','" . $this->acompanha_fonte . "','" . $this->desc_estetica_equipamento . "','" . $this->desc_defeito_reclamado . "', '" . $this->observacao . "','" . $this->tec_responsavel_old . "','" . $this->pecas_trocadas . "','" . $this->servicos_executados . "','" . $this->defeito_apresentado . "','" . $this->laudo_emitido . "','" . $this->burnin_test . "', '" . $this->causa_reincidencia . "')";
         // var_dump($cmdSql);
         return $objConexao->Inserir($cmdSql);
