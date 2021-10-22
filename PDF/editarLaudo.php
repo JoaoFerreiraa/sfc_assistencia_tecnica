@@ -92,7 +92,7 @@ $pecasTrocadas = $objfolhaDeRosto->getPecas_trocadas();
 						<input type="text" name='tecEmissor' disabled value="<?php echo $_SESSION['usuario']['cod'] ?>">
 						<p>...</p>
 						<p>Após análise realizada no notebook <strong><input type="text" id="modelo" name="modelo" value="COMPAQ Presario <?php echo $modelo ?>"></strong> de Número de Série: <strong><input type="text" name="numeroSerie" readonly value="<?php echo $numero_serie ?>"></strong>, evidenciamos que:</p>
-						<textarea class="ml-5" name="pecas" id="" cols="90" rows="5">Na unidade em questão constava um vício no <?= $pecasTrocadas ?> sendo necessário sua troca.
+						<textarea class="ml-5" name="pecas" id="" cols="90" rows="5">Na unidade em questão constava uma característica funcional indevida no <?= $pecasTrocadas ?> sendo necessário sua troca.
 Após substituição da peça defeituosa, conforme a imagem abaixo o equipamento foi testado durante 5h executando: “loops” de teste de CPU, FPU, HD, Memória, Gráficos 2D e 3D, incluindo testes funcionais como portas USB, HDMI, Leitor de cartão SD, Teclado e Touchpad.</textarea>
 						<p>Todos os testes acima foram 100% aprovados conforme resultado abaixo.</p>
 						<p style="text-align: center;"><img src="img.png" height="325" alt=""></p>
